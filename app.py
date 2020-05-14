@@ -17,13 +17,13 @@ def graphql_server():
 
     query = QueryType()
     continent = ObjectType('Continent')
-    countries = ObjectType('Countries')
+    country = ObjectType('Country')
 
     query.set_field('continents', r.continents_resolver)
     query.set_field('countries', r.countries_resolver)
 
 
-    schema = make_executable_schema(type_defs, [continent, countries, query])
+    schema = make_executable_schema(type_defs, [continent, country, query])
 
     data = request.get_json()
     success, result = graphql_sync(

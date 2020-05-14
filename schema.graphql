@@ -1,6 +1,6 @@
 type Query {
     continents: [Continent!]!
-    countries: [Countries!]!
+    countries: [Country!]!
 }
 
 type Continent {
@@ -15,7 +15,7 @@ type Continent {
     newdeaths: String
 }
 
-type Countries {
+type Country {
     activecases: String
     newcases: String
     country: String
