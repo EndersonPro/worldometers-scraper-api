@@ -21,7 +21,8 @@ def graphql_server():
 
     query.set_field('continents', r.continents_resolver)
     query.set_field('countries', r.countries_resolver)
-
+    query.set_field('country_by_name', r.country_by_name_resolver)
+    query.set_field('continent_by_name_resolver', r.continent_by_name_resolver)
 
     schema = make_executable_schema(type_defs, [continent, country, query])
 
