@@ -1,0 +1,28 @@
+type Query {
+    continents: [Continent!]!
+    countries: [Countries!]!
+}
+
+type Continent {
+    activecases: String
+    newcases: String
+    country: String
+    deaths: String
+    serious: String
+    totaldeaths: String
+    totalcases: String
+    totalrecovered: String
+    newdeaths: String
+}
+
+type Countries {
+    activecases: String
+    newcases: String
+    country: String
+    deaths: String
+    serious: String
+    totaldeaths: String
+    totalcases: String
+    totalrecovered: String
+    newdeaths: String
+}
