@@ -39,18 +39,31 @@ class Scrapper:
                 # Data for continents
                 country = td[0].find("nobr")
                 if not country == None:
-                    # dic['name'] = dic.pop(list(dic.keys())[0])
                     contintent_data.append(self.iterate_and_insert_data(headers=dic, td=td, country=country))
                     continue
+                # Data for Diamond Princess ? xd
                 country = td[0].find("span")
                 if not country == None:
                     response.append(self.iterate_and_insert_data(headers=dic, td=td, country=country))
                     continue
+                # Data for World
+                country = td[0].text
+                if not country == None:
+                    country = td[0]
+                    response.append(self.iterate_and_insert_data(headers=dic, td=td, country=country))
+                    continue
                 continue
+            # Data for all countries
             response.append(self.iterate_and_insert_data(headers=dic, td=td, country=country))
         return response, contintent_data
 
     def iterate_in_console(self):
-        for item in self.scrapping():
+        response, contintent_data = self.scrapping()
+        print(" ############## CONTINENTS ############## ")
+        for item in contintent_data:
+            for key, value in item.items():
+                print(key, '->', value)
+        print(" ############## COUNTRIES ############## ")
+        for item in response:
             for key, value in item.items():
                 print(key, '->', value)
