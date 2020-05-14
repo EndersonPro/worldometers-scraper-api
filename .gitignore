@@ -1,0 +1,4 @@
+.vscode/
+__pycache__/
+scrapper/__pycache__/
+scrap
