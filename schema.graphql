@@ -1,6 +1,8 @@
 type Query {
     continents: [Continent!]!
     countries: [Country!]!
+    country_by_name(country: String!): Country!
+    continent_by_name_resolver(country: String!): Continent!
 }
 
 type Continent {
