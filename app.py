@@ -3,8 +3,17 @@ from ariadne.constants import PLAYGROUND_HTML
 from flask import Flask, jsonify, request
 from scrapper import Scrapper
 import resolvers as r
+from redis import Redis
+import rx
+from rx import operators as ops
+import json
 
 app = Flask(__name__)
+
+o = rx.interval(1.0)
+sub = o.subscribe(lambda value: print("El valor es {}".format(value)))
+
+r = Redis(host='localhost', port='6379')
 
 @app.route('/graphql', methods=['GET'])
 def playground():
@@ -12,6 +21,7 @@ def playground():
     
 @app.route('/graphql', methods=['POST'])
 def graphql_server():
+    sub = o.subscribe(lambda value: print("El valor es {}".format(value)))
 
     type_defs = load_schema_from_path('schema.graphql')
 
@@ -37,10 +47,28 @@ def graphql_server():
 
 @app.route('/api')
 def index():
+    try:
+        sub = o.subscribe(lambda value: print("El valor es {}".format(value)))
+        co = json.loads(r.get('countries'))
+        cs = json.loads(r.get('continents'))
+        totalr = json.loads(r.get('total'))
+        return jsonify({ 'data': { 'countries': co, 'continents': cs, 'total': totalr }})
+    except:
+        sub.unsubscribe()
+        return jsonify({ 'data': '', 'message': 'An error ocurred.' })
+
+def update_data_redis():
     s = Scrapper()
-    countries, continent = s.scrapping()
-    total = len(countries) + len(continent)
-    return jsonify({ 'data': { 'countries': countries, 'continents': continent, 'total': total }})
+    countries, continent = s.scrapping()    
+    r.set('countries', json.dumps(countries))
+    r.set('continents', json.dumps(continent))
+    r.set('total', json.dumps(len(countries) + len(continent)))
 
 if __name__ == '__main__':
+    update_data_redis()
+    # app.run(host='0.0.0.0', port=80)
     app.run()
+
+
+# test = rx.interval(1000000)
+# test.subscribe(lambda value: print('Me estoy ejecutando cada 1 segundo {}'.format(value)))
