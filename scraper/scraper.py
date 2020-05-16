@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-class Scrapper:
+class Scraper:
     URL = "https://www.worldometers.info/coronavirus"
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
@@ -13,7 +13,7 @@ class Scrapper:
     def iterate_and_insert_data(self, headers, td, country):
         dic_a = {}
         list_keys_dic = list(headers.keys())
-        dic_a[list_keys_dic[0]] = country.text.rstrip('\n')
+        dic_a[list_keys_dic[0]] = country.text.replace("\n", "")
         for index in range(0, len(td) - 1):
             if not td[index].text == "" or not " ":
                 dic_a[list_keys_dic[index]] = td[index].text if not "+" in td[index].text else td[index].text.split("+")[1]
@@ -21,7 +21,7 @@ class Scrapper:
             dic_a[list_keys_dic[index]] = "0"
         return dic_a
 
-    def scrapping(self):
+    def scraping(self):
         response = []
         dic = {}
         contintent_data = []
@@ -29,6 +29,9 @@ class Scrapper:
             t = self.headers[index].text.lower()
             title = t if not "," in t else t.split(",")[0]
             title = title if not "/" in title else title.split("/")[0]
+            # NOTA: Eso que esta dentro de las comillas no es un espacio, no tengo ni idea de que es, pero bueno, xd
+            title = title if not " " in title else title.replace(" ","")
+            print(title)
             if not title == "": 
                 dic[title] = ""
                 continue
@@ -58,7 +61,7 @@ class Scrapper:
         return response, contintent_data
 
     def iterate_in_console(self):
-        response, contintent_data = self.scrapping()
+        response, contintent_data = self.scraping()
         print(" ############## CONTINENTS ############## ")
         for item in contintent_data:
             for key, value in item.items():
