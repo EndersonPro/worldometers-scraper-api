@@ -31,7 +31,6 @@ class Scraper:
             title = title if not "/" in title else title.split("/")[0]
             # NOTA: Eso que esta dentro de las comillas no es un espacio, no tengo ni idea de que es, pero bueno, xd
             title = title if not " " in title else title.replace(" ","")
-            print(title)
             if not title == "": 
                 dic[title] = ""
                 continue

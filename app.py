@@ -58,7 +58,7 @@ def index():
 
 def update_data_redis():
     s = Scraper()
-    countries, continent = s.scrapping()    
+    countries, continent = s.scraping()    
     r.set('countries', json.dumps(countries))
     r.set('continents', json.dumps(continent))
     r.set('total', json.dumps(len(countries) + len(continent)))
