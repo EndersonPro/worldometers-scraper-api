@@ -9,22 +9,30 @@ type Continent {
     activecases: String
     newcases: String
     country: String
+    "Deaths per million"
     deaths: String
     serious: String
     totaldeaths: String
     totalcases: String
     totalrecovered: String
     newdeaths: String
+    tests: String
+    population: String
+    totcases: String
 }
 
 type Country {
     activecases: String
     newcases: String
     country: String
+    "Deaths per million"
     deaths: String
     serious: String
     totaldeaths: String
     totalcases: String
     totalrecovered: String
     newdeaths: String
+    population: String
+    tests: String
+    totcases: String
 }
