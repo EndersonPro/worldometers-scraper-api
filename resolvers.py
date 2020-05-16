@@ -1,6 +1,6 @@
-from scrapper import Scrapper
 from redis import Redis
 import json
+
 r = Redis(host='localhost', port='6379')
 
 def continents_resolver(_, info):
@@ -8,7 +8,7 @@ def continents_resolver(_, info):
     return cs
 
 def countries_resolver(_, info):
-    co = json.loads(r.get('countries'))
+    co = list(json.loads(r.get('countries')))
     return co
 
 def country_by_name_resolver(_, info, country):
