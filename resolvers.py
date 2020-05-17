@@ -1,7 +1,10 @@
+import os
 from redis import Redis
 import json
 
-r = Redis(host='localhost', port='6379')
+REDIS_HOST = os.getenv('REDIS_HOST') if not os.getenv('REDIS_HOST') == None else 'localhost'
+REDIS_PORT = os.getenv('REDIS_PORT') if not os.getenv('REDIS_PORT') == None else '6379'
+r = Redis(host=REDIS_HOST, port=REDIS_PORT)
 
 def continents_resolver(_, info):
     cs = list(json.loads(r.get('continents')))
